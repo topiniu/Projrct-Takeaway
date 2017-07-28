@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx">
+	
+	
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/takeaway">
+		</property>
+		<property name="username" value="root"/>
+		<property name="password" value="topiniutopiniu"/>
+		<property name="maxActive" value="1000"/>
+		<property name="maxIdle" value="20"/>
+		<property name="maxOpenPreparedStatements" value="2"/>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="annotatedClasses">
+			<list>
+				<value>com.topiniu.takeaway.entity.Application</value>
+				<value>com.topiniu.takeaway.entity.Goods</value>
+				<value>com.topiniu.takeaway.entity.GoodType</value>
+				<value>com.topiniu.takeaway.entity.IdentityInformation</value>
+				<value>com.topiniu.takeaway.entity.Manager</value>
+				<value>com.topiniu.takeaway.entity.Operator</value>
+				<value>com.topiniu.takeaway.entity.Store</value>
+				<value>com.topiniu.takeaway.entity.Waiter</value>
+				<value>com.topiniu.takeaway.entity.User</value>
+				<value>com.topiniu.takeaway.entity.Notices</value>
+			</list>
+		</property>
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">
+					update
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<bean id="daoTemplate" abstract="true" lazy-init="true" 
+		p:sessionFactory-ref="sessionFactory"/>
+	<bean id="applicationDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.ApplicationDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="goodsDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.GoodsDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="goodTypeDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.GoodTypeDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="identityInformationDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.IdentityInformationDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="managerDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.ManagerDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="operatorDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.OperatorDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="storeDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.StoreDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="waiterDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.WaiterDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="userDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.UserDaoImpl"
+		parent="daoTemplate"/>
+	<bean id="noticesDaoImpl"
+		class="com.topiniu.takeaway.manager.daoImpl.NoticesDaoImpl"
+		parent="daoTemplate"/>
+		
+	<bean id="allDao" class="com.topiniu.takeaway.manager.daoImpl.AllDao">
+		<property name="applicationDao" ref="applicationDaoImpl"></property>
+		<property name="goodsDao" ref="goodsDaoImpl"></property>
+		<property name="goodTypeDao" ref="goodTypeDaoImpl"></property>
+		<property name="identityInformationDao" ref="identityInformationDaoImpl"></property>
+		<property name="managerDao" ref="managerDaoImpl"></property>
+		<property name="operatorDao" ref="operatorDaoImpl"></property>
+		<property name="storeDao" ref="storeDaoImpl"></property>
+		<property name="waiterDao" ref="waiterDaoImpl"></property>
+		<property name="userDao" ref="userDaoImpl"></property>
+		<property name="noticesDao" ref="noticesDaoImpl"></property>
+	</bean>
+	
+	<bean id="operatorService" 
+		class="com.topiniu.takeaway.serviceImpl.OperatorServiceImpl">
+		<property name="allDao">
+			<ref local="allDao"/>
+		</property>
+	</bean>
+	
+	<bean id="managerService" 
+		class="com.topiniu.takeaway.serviceImpl.ManagerServiceImpl">
+		<property name="allDao">
+			<ref local="allDao"/>
+		</property>	
+	</bean>
+	
+	<bean id="userService" 
+		class="com.topiniu.takeaway.serviceImpl.UserServiceImpl">
+		<property name="allDao">
+			<ref local="allDao"/>
+		</property>	
+	</bean>
+	
+	<bean id="managerBaseAction"
+		 class="com.topiniu.takeaway.manager.action.ManagerBaseAction">
+		<property name="managerService">
+			<ref local="managerService"/>
+		</property>
+		<property name="userService">
+			<ref local="userService"/>
+		</property>
+	</bean>
+	
+	<bean id="operatorBaseAction"
+		 class="com.topiniu.takeaway.operator.action.OperatorBaseAction">
+		<property name="operatorService">
+			<ref local="operatorService"/>
+		</property>
+		<property name="userService">
+			<ref local="userService"/>
+		</property>
+	</bean>
+	
+	<bean id="userBaseAction"
+		 class="com.topiniu.takeaway.user.action.UserBaseAction">
+		<property name="operatorService">
+			<ref local="operatorService"/>
+		</property>
+		<property name="userService">
+			<ref local="userService"/>
+		</property>
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

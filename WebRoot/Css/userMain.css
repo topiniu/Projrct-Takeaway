@@ -1,0 +1,51 @@
+#main{
+	position: absolute;
+	top: 20%;
+	left:0;
+	border: thin solid #cc0000;
+	height: 600px;
+	width: 99%;
+}
+#main #left{
+	width:150px;
+	height: 600px;
+	border-right: thin solid blue;
+	float:left;
+}
+#main #left a{
+	width:100%;
+	height:50px;
+	display:block;
+	float: left;
+	margin-top: 10px;
+	line-height: 50px;
+	text-align: center;
+	background-color: gray;
+	color:white;
+	text-decoration: none;
+	font-weight: bold;
+}
+#main #left a:HOVER, :VISITED {
+	background-color: #cc0000;
+}
+#main #right{
+	float:right;
+	position: absolute;
+	right: 500px;
+}
+#buttBox{
+	width:500px;
+	margin: 0 auto;
+}
+#noticeBox{
+	width: 350px;
+	height: 400px;
+	overflow: auto;
+}
+#noticeBox #upButt{
+	
+}
+.noBox{
+	background-color: #CDC9C9;
+}
+

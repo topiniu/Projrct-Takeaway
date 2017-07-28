@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx">
+	
+	
+	<bean id="loginAction" parent="managerBaseAction"
+		scope="prototype"  class="com.topiniu.takeaway.manager.action.ManagerLoginAction">
+	</bean>
+	
+	<bean id="mainAction" parent="managerBaseAction"
+		scope="prototype"  class="com.topiniu.takeaway.manager.action.ManagerMainAction">
+	</bean>
+	
+	<bean id="registerAction" parent="operatorBaseAction"
+		scope="prototype"  class="com.topiniu.takeaway.operator.action.RegisterAction">
+	</bean>
+	
+	<bean id="o_storeAction" parent="operatorBaseAction"
+		scope="prototype" class="com.topiniu.takeaway.operator.action.StoreAction">
+	</bean>
+	
+	<bean id="applicationAction" parent="managerBaseAction"
+		scope="prototype" class="com.topiniu.takeaway.manager.action.ApplicationAction">
+	</bean>
+	
+	<bean id="userLoginAction" parent="userBaseAction"
+		scope="prototype" class="com.topiniu.takeaway.user.action.LoginAction">
+	</bean>
+	
+	<bean id="userMainAction" parent="userBaseAction"
+		scope="prototype" class="com.topiniu.takeaway.user.action.UserMainAction">
+	</bean>
+	
+</beans>

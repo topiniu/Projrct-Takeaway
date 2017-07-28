@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<constant name="struts.il8n.encoding" value="GBK"></constant>
+<constant name="struts.devMode" value="true"></constant>
+<constant name="struts.objectFactory" value="spring"></constant>
+<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+
+<package name="manager" namespace="/Manager" extends="json-default">
+	<action name="login" class="loginAction" method="login">
+		<result type="json">
+			<param name="includeProperties">
+				msg
+			</param>
+		</result>
+	</action>
+	<action name="*_main" class="mainAction" method="{1}">
+		<result type="json">
+			<param name="includeProperties">
+				applicationList.*
+			</param>
+		</result>
+	</action>
+	<action name="*_applicationDetail" class="applicationAction" method="{1}">
+		<result name="success">/Manager/applicationDetail.jsp</result>
+		<result name="toMainPage">/Manager/managerMain.jsp</result>
+	</action>
+</package>
+
+
+<package name="base" namespace="/Base" extends="struts-default">
+	<action name="register" class="registerAction" method="createApplication">
+		<result name="success">/tran.jsp</result>
+	</action>
+</package>
+
+
+<package name="usualUser" namespace="/User" extends="json-default">
+	<action name="userLogin" class="userLoginAction" method="login">
+		<result type="json">
+			<param name="includeProperties">
+				msg
+			</param>
+		</result>
+	</action>
+	<action name="userMain" class="userMainAction">
+		<result type="json">
+			<param name="includeProperties">
+				msg,noticesList.*
+			</param>
+		</result>
+		<result name="input">/usualUser/userMain.jsp</result>
+	</action>
+</package>
+
+<package name="operator" namespace="/Operator"  extends="json-default">
+<action name="storeAction" class="o_storeAction">
+	<result type="json">
+			<param name="includeProperties">
+				CCStore
+			</param>
+		</result>
+		
+		<result name="storeCreated">
+			creatStore.jsp
+		</result>
+</action>
+</package>
+</struts>    
+
+
+
+
+
+
+
+
+
+
+

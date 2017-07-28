@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="manager" location="10,10" size="199,157">
+    <action name="login" location="15,44" size="162,86">
+      <result name="success" />
+    </action>
+  </package>
+</Struts2Diagram>
+
